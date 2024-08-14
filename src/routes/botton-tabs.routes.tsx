@@ -13,21 +13,14 @@ import { SignIn } from "@screens/auth/SignIn";
 import { Home } from "@screens/private/Home";
 import { CartShopping } from "@screens/private/CartShopping";
 import { DetailsItem } from "@screens/private/DetailsItem";
+import { Product } from "@stores/reducers/types";
 
 export type AppRoutes = {
   home: undefined;
   cartshopping: undefined;
   signIn: undefined;
   detailsitem: {
-    item: {
-      id: number;
-      title: string;
-      price: number;
-      zipcode: string;
-      seller: string;
-      thumbnailHd: string;
-      date: string;
-    };
+    item: Product;
   };
 };
 
