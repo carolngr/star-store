@@ -1,9 +1,12 @@
+import { Text, ScrollView } from "react-native";
+import { stories } from "@stores/index";
+
 import { Button } from "@components/molecules/Button";
-import { OrderItem } from "@components/molecules/OrderItem";
 import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
 import { ZipCode } from "@components/molecules/ZipCode";
 import { Headers } from "@components/templates/Headers";
-import { View, Text, ScrollView } from "react-native";
+import { OrderItem } from "@components/organisms/OrderItem";
+
 import { Container } from "./styles";
 
 const itemDetails = {
@@ -18,15 +21,26 @@ const itemDetails = {
 };
 
 export function CartShopping() {
+  const [selectedproducts] = stories.useOrderStore((state) => [
+    state.selectedProducts,
+  ]);
+
   return (
     <ScrollView>
       <Headers.TextButtonRow title="Carrinho" />
 
       <Container>
-        <OrderItem item={itemDetails} />
+        {selectedproducts.map((product) => (
+          <OrderItem item={product} key={product.title} />
+        ))}
+
         <ZipCode />
         <PaymentInfoArea />
-        <Button.Primary title="Ir para o pagamento" type="SECONDARY" />
+        <Button.Primary
+          title="Ir para o pagamento"
+          type="SECONDARY"
+          onPress={() => console.log("teste")}
+        />
       </Container>
     </ScrollView>
   );
