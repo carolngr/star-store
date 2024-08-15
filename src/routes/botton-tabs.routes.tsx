@@ -63,7 +63,7 @@ export function MenuTabs() {
       <Screen
         name="detailsitem"
         component={DetailsItem}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, unmountOnBlur: true }}
       />
     </Navigator>
   );
