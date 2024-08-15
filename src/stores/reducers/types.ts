@@ -21,4 +21,6 @@ export type Actions = {
   increment: (product: Product) => void;
   decrement: (product: Product) => void;
   appendProduct: (product: Product) => void;
+  removeProductCart: (product: Product) => void;
+  clearCart: () => void;
 };

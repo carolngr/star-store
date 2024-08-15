@@ -19,6 +19,8 @@ export const OrderItem = ({ item }: CardProps) => {
     state.decrement,
   ]);
 
+  console.log(item);
+
   return (
     <Container>
       <Photo />

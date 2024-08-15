@@ -77,6 +77,12 @@ export const useOrderStore = create(
           selectedProducts: modifiedList,
         }));
       },
+      removeProductCart: () => {},
+      clearCart: () => {
+        set(() => ({
+          selectedProducts: [],
+        }));
+      },
     }),
     {
       name: "storage:order",
