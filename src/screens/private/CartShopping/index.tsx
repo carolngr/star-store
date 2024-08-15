@@ -1,4 +1,4 @@
-import { Text, ScrollView, View } from "react-native";
+import { Text, ScrollView, View, SafeAreaView } from "react-native";
 import { stories } from "@stores/index";
 
 import { Button } from "@components/molecules/Button";
@@ -8,7 +8,6 @@ import { Headers } from "@components/templates/Headers";
 import { OrderItem } from "@components/organisms/OrderItem";
 
 import { Container, EmptyCart, EmptyTitle } from "./styles";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export function CartShopping() {
   const [selectedproducts, clearCart] = stories.useOrderStore((state) => [
