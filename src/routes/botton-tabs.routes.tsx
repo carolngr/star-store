@@ -14,6 +14,7 @@ import { Home } from "@screens/private/Home";
 import { CartShopping } from "@screens/private/CartShopping";
 import { DetailsItem } from "@screens/private/DetailsItem";
 import { Product } from "@stores/reducers/types";
+import { Payment } from "@screens/private/Payment";
 
 export type AppRoutes = {
   home: undefined;
@@ -22,6 +23,7 @@ export type AppRoutes = {
   detailsitem: {
     item: Product;
   };
+  payment: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -64,6 +66,12 @@ export function MenuTabs() {
         name="detailsitem"
         component={DetailsItem}
         options={{ tabBarButton: () => null, unmountOnBlur: true }}
+      />
+
+      <Screen
+        name="payment"
+        component={Payment}
+        options={{ unmountOnBlur: true }}
       />
     </Navigator>
   );
