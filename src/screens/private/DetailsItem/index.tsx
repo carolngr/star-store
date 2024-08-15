@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 
-import { AppNavigatorRoutesProps, AppRoutes } from "@routes/botton-tabs.routes";
+import { AppRoutes } from "@routes/botton-tabs.routes";
 
 import { Headers } from "@components/templates/Headers";
 import { Button } from "@components/molecules/Button";
@@ -14,9 +14,6 @@ import { stories } from "@stores/index";
 import { useState } from "react";
 
 export function DetailsItem() {
-  const [quantity, setQuantity] = useState(1);
-
-  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { params } = useRoute<RouteProp<AppRoutes, "detailsitem">>();
   const {
     title = "",
@@ -28,14 +25,14 @@ export function DetailsItem() {
     zipcode,
   } = params.item;
 
+  const [quantity, setQuantity] = useState(1);
+
   const [appendProduct] = stories.useOrderStore((state) => [
     state.appendProduct,
   ]);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
-
-    console.log("teste", quantity);
   };
 
   const handleDecrement = () => {
