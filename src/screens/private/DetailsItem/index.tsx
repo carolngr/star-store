@@ -12,6 +12,7 @@ import { Box } from "@components/atomos/Box";
 import { BlockInfo, Description, Price, Title } from "./styles";
 import { stories } from "@stores/index";
 import { useState } from "react";
+import { formatCurrency } from "src/util/formatCurrency";
 
 export function DetailsItem() {
   const { params } = useRoute<RouteProp<AppRoutes, "detailsitem">>();
@@ -54,7 +55,7 @@ export function DetailsItem() {
           <Description>Data: {date}</Description>
           <Description>Vendedor: {seller}</Description>
           <Description>Cep: {zipcode}</Description>
-          <Price>{price}</Price>
+          <Price>{formatCurrency(price)}</Price>
           <Quantity
             decrement={() => handleDecrement()}
             increment={() => handleIncrement()}
