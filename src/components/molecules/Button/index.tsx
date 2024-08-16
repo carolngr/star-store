@@ -1,8 +1,7 @@
-import { IconPlus } from "./Plus";
+import { Icon } from "./Icon";
 import { Primary } from "./Primary";
 
 export const Button = {
   Primary,
-  IconPlus,
+  Icon,
 };
-export { IconPlus };
