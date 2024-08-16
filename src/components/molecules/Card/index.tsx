@@ -1,7 +1,10 @@
 import { View, Text } from "react-native";
 import { Container, InfoArea, Photo, Price, Title } from "./styles";
-import { IconPlus } from "@components/molecules/Button";
 import { Box } from "@components/atomos/Box";
+
+import { Button } from "@components/molecules/Button";
+import { IconWeight, Minus, Plus, Wallet } from "phosphor-react-native";
+import { formatCurrency } from "src/util/formatCurrency";
 
 export interface ICardProps {
   id: number;
@@ -17,6 +20,21 @@ type CardProps = {
   onPress: (item: ICardProps) => void;
 };
 
+const glyphMap = {
+  plus: Plus,
+  minus: Minus,
+  wallet: Wallet,
+};
+
+type IconName = keyof typeof glyphMap;
+
+interface IconProps {
+  name: IconName;
+  size?: number;
+  color?: string;
+  weight: IconWeight;
+}
+
 export const Card = ({ onPress, item }: CardProps) => {
   return (
     <Box>
@@ -25,8 +43,15 @@ export const Card = ({ onPress, item }: CardProps) => {
       </Photo>
       <Title>{item.title}</Title>
       <InfoArea>
-        <Price>{item.price}</Price>
-        <IconPlus onPress={() => onPress(item)} />
+        <Price>{formatCurrency(item.price)}</Price>
+
+        <Button.Icon
+          name={"plus"}
+          size={24}
+          color={"#000"}
+          weight={"fill"}
+          onPress={() => onPress(item)}
+        />
       </InfoArea>
     </Box>
   );
