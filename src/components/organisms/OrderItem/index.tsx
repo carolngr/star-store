@@ -5,9 +5,11 @@ import { Photo } from "@components/atomos/Photo";
 import { Quantity } from "@components/molecules/Quantity";
 import { Button } from "@components/molecules/Button";
 
-import { Container, Details, Price, Title, BoxBottom, BoxTop } from "./styles";
 import { stories } from "@stores/index";
 import { Product } from "@stores/reducers/types";
+import { formatCurrency } from "src/util/formatCurrency";
+
+import { Container, Details, Price, Title, BoxBottom, BoxTop } from "./styles";
 
 type CardProps = {
   item: Product;
@@ -27,7 +29,7 @@ export const OrderItem = ({ item }: CardProps) => {
       <Details>
         <BoxTop>
           <Title>{item.title}</Title>
-          <Price>{item.price}</Price>
+          <Price>{formatCurrency(item.price)}</Price>
         </BoxTop>
 
         <BoxBottom>
