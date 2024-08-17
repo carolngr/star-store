@@ -6,9 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const defaultState: State = {
   selectedProducts: [],
   count: 0,
-  subTotalValue: 0,
-  freteValue: 0,
-  totalValue: 0,
 };
 
 const validationProductExists = (
@@ -25,6 +22,10 @@ const updateProductAmount = (
 ) => {
   const modifiedList = selectedProducts.map((product) => {
     if (product.title === item.title) {
+      if (amount < 0) {
+        return product;
+      }
+
       return {
         ...product,
         amount: product.amount + amount,
@@ -82,6 +83,27 @@ export const useOrderStore = create(
         set(() => ({
           selectedProducts: [],
         }));
+      },
+      calcPayment: () => {
+        const selectedProducts = get().selectedProducts;
+
+        const subTotal = selectedProducts.reduce(
+          (acc, item) => acc + item.price * item.amount,
+          0
+        );
+
+        const total = selectedProducts.reduce(
+          (acc, item) => acc + item.price * item.amount + 40,
+          0
+        );
+
+        console.log(total);
+
+        return {
+          freteValue: 40,
+          subTotalValue: subTotal,
+          totalValue: total,
+        };
       },
     }),
     {

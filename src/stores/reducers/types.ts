@@ -12,9 +12,6 @@ export type Product = {
 export type State = {
   selectedProducts: Product[];
   count: number;
-  subTotalValue: number;
-  freteValue: number;
-  totalValue: number;
 };
 
 export type Actions = {
@@ -23,4 +20,9 @@ export type Actions = {
   appendProduct: (product: Product) => void;
   removeProductCart: (product: Product) => void;
   clearCart: () => void;
+  calcPayment: () => {
+    subTotalValue: number;
+    freteValue: number;
+    totalValue: number;
+  };
 };

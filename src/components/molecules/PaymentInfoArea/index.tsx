@@ -5,14 +5,17 @@ import { Divider } from "@components/atomos/Divider";
 import { useOrderStore } from "@stores/reducers";
 import { formatCurrency } from "src/util/formatCurrency";
 
-export const PaymentInfoArea = () => {
-  const items = useOrderStore((state) => state.selectedProducts);
+type ValoresProps = {
+  subTotal: number;
+  valorFrete: number;
+  totalValue: number;
+};
 
-  const subTotal = items.reduce(
-    (acc, item) => acc + item.price * item.amount,
-    0
-  );
-
+export const PaymentInfoArea = ({
+  subTotal,
+  valorFrete,
+  totalValue,
+}: ValoresProps) => {
   return (
     <Container>
       <BoxInformation>
@@ -21,12 +24,12 @@ export const PaymentInfoArea = () => {
       </BoxInformation>
       <BoxInformation>
         <Title>Frete</Title>
-        <Text>R$ 29,00</Text>
+        <Text>{formatCurrency(valorFrete)}</Text>
       </BoxInformation>
       <Divider />
       <BoxInformation>
         <Title>Total</Title>
-        <TotalPrice>{formatCurrency(subTotal)}</TotalPrice>
+        <TotalPrice>{formatCurrency(totalValue)}</TotalPrice>
       </BoxInformation>
     </Container>
   );

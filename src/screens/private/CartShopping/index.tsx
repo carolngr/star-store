@@ -8,12 +8,12 @@ import { Headers } from "@components/templates/Headers";
 import { OrderItem } from "@components/organisms/OrderItem";
 
 import { Container, EmptyCart, EmptyTitle } from "./styles";
+import { Box } from "@components/atomos/Box";
 
 export function CartShopping() {
-  const [selectedproducts, clearCart] = stories.useOrderStore((state) => [
-    state.selectedProducts,
-    state.clearCart,
-  ]);
+  const [selectedproducts, clearCart, calcPayment] = stories.useOrderStore(
+    (state) => [state.selectedProducts, state.clearCart, state.calcPayment]
+  );
 
   const renderCartItems = () => {
     return (
@@ -21,12 +21,18 @@ export function CartShopping() {
         <Headers.TextButtonRow title="Carrinho" onPress={() => clearCart()} />
         <ScrollView>
           <Container>
-            {selectedproducts.map((product) => (
-              <OrderItem item={product} key={product.title} />
-            ))}
+            <Box>
+              {selectedproducts.map((product) => (
+                <OrderItem item={product} key={product.title} />
+              ))}
+            </Box>
 
             <ZipCode />
-            <PaymentInfoArea />
+            <PaymentInfoArea
+              subTotal={calcPayment().subTotalValue}
+              valorFrete={calcPayment().freteValue}
+              totalValue={calcPayment().totalValue}
+            />
             <Button.Primary
               title="Ir para o pagamento"
               type="SECONDARY"

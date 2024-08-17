@@ -1,9 +1,15 @@
 import { Box } from "@components/atomos/Box";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled(Box)`
+// export const Container = styled(Box)`
+//   flex-direction: row;
+//   align-items: center;
+// `;
+
+export const Container = styled.View`
   flex-direction: row;
   align-items: center;
+  gap: 10px;
 `;
 
 export const Details = styled.View`

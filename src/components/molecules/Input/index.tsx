@@ -1,7 +1,9 @@
-import { InputText } from "./Text";
+import { Text } from "./Text";
 import { Search } from "./Search";
+import { Mask } from "./Mask";
 
 export const Input = {
-  InputText,
+  Text,
   Search,
+  Mask,
 };

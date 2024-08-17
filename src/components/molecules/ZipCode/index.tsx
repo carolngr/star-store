@@ -6,7 +6,7 @@ export const ZipCode = () => {
   return (
     <Container>
       <Title>Cep</Title>
-      <Input.InputText placeholder="Senha" />
+      <Input.Mask width={"50%"} placeholder="XXXXX-XXX" />
     </Container>
   );
 };

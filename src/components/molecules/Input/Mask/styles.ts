@@ -11,6 +11,11 @@ export const Container = styled.View`
   `};
 
   border-radius: 5px;
-  padding: 16px;
-  ${width};
+  padding: 14px;
+
+  ${width}
+`;
+
+export const InputMask = styled(TextInputMask)`
+  text-align: center;
 `;
