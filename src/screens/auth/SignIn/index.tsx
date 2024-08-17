@@ -10,8 +10,8 @@ export function SignIn() {
     <>
       <Headers.Simple title="Login" />
       <Container>
-        <Input.InputText placeholder="Email" />
-        <Input.InputText placeholder="Senha" />
+        <Input.Text placeholder="Email" />
+        <Input.Text placeholder="Senha" />
         <Button.Primary
           title="Fazer login"
           onPress={() => console.log("Carol teste")}
