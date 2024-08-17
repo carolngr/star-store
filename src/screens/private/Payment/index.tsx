@@ -17,9 +17,14 @@ import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
 import { Button } from "@components/molecules/Button";
 import { Input } from "@components/molecules/Input";
 import { useState } from "react";
+import { useOrderStore } from "@stores/reducers";
 
 export function Payment() {
   const [isShowForm, setShowForm] = useState<boolean>(false);
+  const [items, calcPayment] = useOrderStore((state) => [
+    state.selectedProducts,
+    state.calcPayment,
+  ]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -61,11 +66,11 @@ export function Payment() {
 
         {isShowForm ? (
           <Form>
-            <Input.InputText placeholder="Nome do titular" />
-            <Input.InputText placeholder="Número do cartão" />
+            <Input.Text placeholder="Nome do titular" />
+            <Input.Text placeholder="Número do cartão" />
             <View>
-              <Input.InputText placeholder="Validade" />
-              <Input.InputText placeholder="CVV" />
+              <Input.Text placeholder="Validade" />
+              <Input.Text placeholder="CVV" />
             </View>
           </Form>
         ) : (
@@ -81,7 +86,11 @@ export function Payment() {
               </Address>
             </Box>
 
-            <PaymentInfoArea subtotal={} valorFrete={29.9} />
+            <PaymentInfoArea
+              subTotal={calcPayment().subTotalValue}
+              valorFrete={calcPayment().freteValue}
+              totalValue={calcPayment().totalValue}
+            />
             <Button.Primary
               title="Confirmar pagamento"
               type="SECONDARY"

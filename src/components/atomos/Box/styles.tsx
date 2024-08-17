@@ -11,7 +11,6 @@ export const Container = styled.View`
   box-shadow: 1px 2px 2px ${({ theme }) => theme.COLORS.GRAY_300};
 
   padding: 20px;
-
   gap: 10px;
 
   ${gridGap}
