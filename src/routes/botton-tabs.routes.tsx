@@ -17,6 +17,7 @@ import { Product } from "@stores/reducers/types";
 import { Payment } from "@screens/private/Payment";
 import { Order } from "@screens/private/Order";
 import { ProfileOrderHistory } from "@screens/private/ProfileOrderHistory";
+import { OrderView } from "@screens/private/OrderView";
 
 export type AppRoutes = {
   home: undefined;
@@ -28,6 +29,7 @@ export type AppRoutes = {
   payment: undefined;
   order: undefined;
   profileorderhistory: undefined;
+  orderview: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -88,6 +90,12 @@ export function MenuTabs() {
         name="profileorderhistory"
         component={ProfileOrderHistory}
         options={{ unmountOnBlur: true }}
+      />
+
+      <Screen
+        name="orderview"
+        component={OrderView}
+        options={{ tabBarButton: () => null, unmountOnBlur: true }}
       />
     </Navigator>
   );
