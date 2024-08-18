@@ -16,7 +16,6 @@ import { Input } from "@components/molecules/Input";
 
 import { Headers } from "@components/templates/Headers";
 import {
-  Address,
   Container,
   PaymentOptions,
   Option,
@@ -27,6 +26,7 @@ import {
   ListCard,
 } from "./styles";
 import { Icons } from "@components/atomos/Icons";
+import { InfoBlock } from "@components/molecules/InfoBlock";
 
 interface IDataCard {
   titular: string;
@@ -160,17 +160,11 @@ export function Payment() {
 
         {!showListCard && !isShowForm && (
           <>
-            <Box>
-              <Address>
-                <View>
-                  <Text>Endereço</Text>
-                  <Text>Rua são martins, 79</Text>
-                  <Text>CENTRO, João Pessoa / PB</Text>
-                </View>
-                <CaretRight size={32} />
-              </Address>
-            </Box>
-
+            <InfoBlock
+              title="Endereço"
+              description="Rua são martins, 79
+              CENTRO, João Pessoa / PB"
+            />
             <PaymentInfoArea
               subTotal={calcPayment().subTotalValue}
               valorFrete={calcPayment().freteValue}

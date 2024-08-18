@@ -7,16 +7,7 @@ import {
   Plus,
   Wallet,
 } from "phosphor-react-native";
-
-const glyphMap = {
-  plus: Plus,
-  minus: Minus,
-  wallet: Wallet,
-  caretRight: CaretRight,
-  checkSquare: CheckSquare,
-};
-
-type IconName = keyof typeof glyphMap;
+import { IconName, glyphMap } from "@theme/icons";
 
 interface IconProps {
   name: IconName;

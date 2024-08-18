@@ -50,12 +50,6 @@ export const Title = styled.Text`
   `}
 `;
 
-export const Address = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 export const Form = styled.View`
   gap: 10px;
 `;
