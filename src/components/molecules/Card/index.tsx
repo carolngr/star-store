@@ -49,8 +49,9 @@ export const Card = ({ onPress, item }: CardProps) => {
           name={"plus"}
           size={24}
           color={"#000"}
-          weight={"fill"}
+          weight="fill"
           onPress={() => onPress(item)}
+          TitleButton=""
         />
       </InfoArea>
     </Box>
