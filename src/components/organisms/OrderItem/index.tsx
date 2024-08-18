@@ -11,11 +11,12 @@ import { formatCurrency } from "src/util/formatCurrency";
 
 import { Container, Details, Price, Title, BoxBottom, BoxTop } from "./styles";
 
-type CardProps = {
+type OrdemProps = {
   item: Product;
+  fixedAmount?: boolean;
 };
 
-export const OrderItem = ({ item }: CardProps) => {
+export const OrderItem = ({ item, fixedAmount }: OrdemProps) => {
   const [increment, decrement] = stories.useOrderStore((state) => [
     state.increment,
     state.decrement,
@@ -33,11 +34,18 @@ export const OrderItem = ({ item }: CardProps) => {
         <BoxBottom>
           <Text>Vendedor: {item.seller}</Text>
           <Text>Cep: {item.zipcode}</Text>
-          <Quantity
-            decrement={() => decrement(item)}
-            increment={() => increment(item)}
-            quantity={item.amount}
-          />
+          {fixedAmount ? (
+            <>
+              <Text>Quantidade</Text>
+              <Text>{item.amount}</Text>
+            </>
+          ) : (
+            <Quantity
+              decrement={() => decrement(item)}
+              increment={() => increment(item)}
+              quantity={item.amount}
+            />
+          )}
         </BoxBottom>
       </Details>
     </Container>
