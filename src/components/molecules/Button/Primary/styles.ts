@@ -20,6 +20,5 @@ export const Container = styled(TouchableOpacity)<Props>`
 `;
 
 export const Title = styled.Text<Props>`
-  color: ${({ theme, type }) =>
-    type === "PRIMARY" ? theme.COLORS.GREEN_700 : theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.WHITE};
 `;
