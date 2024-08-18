@@ -13,6 +13,7 @@ import { BlockInfo, Description, Price, Title } from "./styles";
 import { stories } from "@stores/index";
 import { useState } from "react";
 import { formatCurrency } from "src/util/formatCurrency";
+import { Content } from "@components/atomos/Content";
 
 export function DetailsItem() {
   const { params } = useRoute<RouteProp<AppRoutes, "detailsitem">>();
@@ -47,27 +48,29 @@ export function DetailsItem() {
   return (
     <SafeAreaView>
       <Headers.Simple title="Detalhes" showBackButton />
-      <Box>
-        <Photo />
+      <Content>
+        <Box>
+          <Photo width={"100%"} />
 
-        <BlockInfo>
-          <Title>{title}</Title>
-          <Description>Data: {date}</Description>
-          <Description>Vendedor: {seller}</Description>
-          <Description>Cep: {zipcode}</Description>
-          <Price>{formatCurrency(price)}</Price>
-          <Quantity
-            decrement={() => handleDecrement()}
-            increment={() => handleIncrement()}
-            quantity={quantity}
-          />
-          <Button.Primary
-            title="Adicionar ao carrinho"
-            type="SECONDARY"
-            onPress={() => appendToCart()}
-          />
-        </BlockInfo>
-      </Box>
+          <BlockInfo>
+            <Title>{title}</Title>
+            <Description>Data: {date}</Description>
+            <Description>Vendedor: {seller}</Description>
+            <Description>Cep: {zipcode}</Description>
+            <Price>{formatCurrency(price)}</Price>
+            <Quantity
+              decrement={() => handleDecrement()}
+              increment={() => handleIncrement()}
+              quantity={quantity}
+            />
+            <Button.Primary
+              title="Adicionar ao carrinho"
+              type="SECONDARY"
+              onPress={() => appendToCart()}
+            />
+          </BlockInfo>
+        </Box>
+      </Content>
     </SafeAreaView>
   );
 }
