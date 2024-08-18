@@ -1,22 +1,30 @@
 import { useState } from "react";
 import { LayoutProps } from "styled-system";
 
-import { Container, InputMask } from "./styles";
+import { Container } from "./styles";
+import { TextInputMask, TextInputMaskProps } from "react-native-masked-text";
 
-interface IInputMaskProps extends LayoutProps {
+interface IInputMaskProps extends TextInputMaskProps {
+  containerProps?: LayoutProps;
   placeholder: string;
 }
 
-export const Mask = ({ placeholder, ...rest }: IInputMaskProps) => {
+export const Mask = ({
+  containerProps,
+  placeholder,
+  type,
+  ...rest
+}: IInputMaskProps) => {
   const [cep, setCep] = useState("");
 
   return (
-    <Container {...rest}>
-      <InputMask
-        type={"zip-code"}
+    <Container {...containerProps}>
+      <TextInputMask
+        type={type}
         value={cep}
         onChangeText={(text) => setCep(text)}
         placeholder={placeholder}
+        {...rest}
       />
     </Container>
   );

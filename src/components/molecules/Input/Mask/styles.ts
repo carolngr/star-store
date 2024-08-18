@@ -1,4 +1,3 @@
-import { TextInputMask } from "react-native-masked-text";
 import styled, { css } from "styled-components/native";
 import { width } from "styled-system";
 
@@ -14,8 +13,4 @@ export const Container = styled.View`
   padding: 14px;
 
   ${width}
-`;
-
-export const InputMask = styled(TextInputMask)`
-  text-align: center;
 `;
