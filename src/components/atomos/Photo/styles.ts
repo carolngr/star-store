@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { width } from "styled-system";
 
 export const Container = styled.View`
   background-color: #eeeeee;
@@ -7,5 +8,5 @@ export const Container = styled.View`
   height: 123px;
   border-radius: 10px;
 
-  //height: 268px;
+  ${width}
 `;

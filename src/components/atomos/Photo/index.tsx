@@ -1,10 +1,19 @@
-import { View, Text } from "react-native";
+import { PropsWithChildren } from "react";
+import {
+  FlexboxProps,
+  GridGapProps,
+  LayoutProps,
+  SpaceProps,
+} from "styled-system";
 import { Container } from "./styles";
 
-export const Photo = () => {
-  return (
-    <Container>
-      <Text>Ola mindo</Text>
-    </Container>
-  );
+export interface IPhotoProps
+  extends PropsWithChildren,
+    FlexboxProps,
+    SpaceProps,
+    LayoutProps,
+    GridGapProps {}
+
+export const Photo = ({ children, ...rest }: IPhotoProps) => {
+  return <Container {...rest}>{children}</Container>;
 };
