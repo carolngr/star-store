@@ -3,16 +3,21 @@ import { TextInput, TextInputProps } from "react-native";
 import { Container } from "./styles";
 import { LayoutProps } from "styled-system";
 
-interface IInputProps
-  extends Omit<TextInputProps, "verticalAlign">,
-    LayoutProps {
+interface IInputProps extends TextInputProps {
   inputRef?: React.RefObject<TextInput>;
+  placeholder: string;
+  containerProps?: LayoutProps;
 }
 
-export function Text({ inputRef, ...rest }: IInputProps) {
+export function Text({
+  inputRef,
+  placeholder,
+  containerProps,
+  ...rest
+}: IInputProps) {
   return (
-    <Container {...rest}>
-      <TextInput ref={inputRef} placeholder="User name" />
+    <Container {...containerProps}>
+      <TextInput ref={inputRef} placeholder={placeholder} {...rest} />
     </Container>
   );
 }

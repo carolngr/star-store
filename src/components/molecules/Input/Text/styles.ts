@@ -1,4 +1,3 @@
-import { TextInputMask } from "react-native-masked-text";
 import styled, { css } from "styled-components/native";
 import { width } from "styled-system";
 
