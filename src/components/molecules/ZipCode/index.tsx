@@ -6,7 +6,11 @@ export const ZipCode = () => {
   return (
     <Container>
       <Title>Cep</Title>
-      <Input.Mask width={"50%"} placeholder="XXXXX-XXX" />
+      <Input.Mask
+        containerProps={{ width: "50%" }}
+        placeholder="XXXXX-XXX"
+        type="zip-code"
+      />
     </Container>
   );
 };
