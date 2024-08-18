@@ -8,7 +8,6 @@ export const Container = styled.View`
 `;
 
 export const CredCart = styled(Box)`
-  width: 100%;
   padding: 37px 24px;
   background-color: #3f3f3f;
 `;
@@ -20,6 +19,17 @@ export const TitleName = styled.Text`
     color: ${theme.COLORS.WHITE};
   `}
   padding-bottom: 30px;
+`;
+
+export const Description = styled.Text`
+  color: ${({ theme }) => theme.COLORS.WHITE};
+`;
+
+export const ListCard = styled(Box)`
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
 `;
 
 export const PaymentOptions = styled.View`
@@ -38,19 +48,6 @@ export const Title = styled.Text`
     font-size: ${theme.FONT_SIZE.SM};
     font-family: ${theme.FONT_FAMILY.BOLD};
   `}
-`;
-
-export const FiveInputsRow = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const SmallInput = styled.TextInput`
-  border-width: 1px;
-  border-bottom-color: #ddd;
-  width: 50px;
-  padding: 5px;
-  text-align: center;
 `;
 
 export const Address = styled.View`
