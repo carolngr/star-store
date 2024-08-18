@@ -8,6 +8,7 @@ import {
 } from "phosphor-react-native";
 import { Container } from "./styles";
 import { Icons } from "@components/atomos/Icons";
+import { Label } from "@components/atomos/Label";
 
 const glyphMap = {
   plus: Plus,
@@ -22,12 +23,21 @@ type IconPlusPros = TouchableOpacityProps & {
   size?: number;
   color?: string;
   weight: IconWeight;
+  TitleButton: string;
 };
 
-export const Icon = ({ name, size, color, weight, ...rest }: IconPlusPros) => {
+export const Icon = ({
+  name,
+  size,
+  color,
+  weight,
+  TitleButton,
+  ...rest
+}: IconPlusPros) => {
   return (
-    <TouchableOpacity {...rest}>
+    <Container {...rest}>
       <Icons name={name} size={size} color={color} weight={weight} />
-    </TouchableOpacity>
+      <Label title={TitleButton} />
+    </Container>
   );
 };
