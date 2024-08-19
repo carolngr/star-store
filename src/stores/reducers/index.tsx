@@ -43,6 +43,7 @@ export const useOrderStore = create(
     (set, get) => ({
       ...defaultState,
       appendProduct: (product: Product) => {
+        if (product.amount <= 0) return false;
         const selectedProducts = get().selectedProducts;
         const productExistis = validationProductExists(
           product.id,
@@ -63,6 +64,7 @@ export const useOrderStore = create(
             selectedProducts: [...selectedProducts, product],
           }));
         }
+        return true;
       },
       increment: (product: Product) => {
         const selectedProducts = get().selectedProducts;

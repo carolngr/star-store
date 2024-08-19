@@ -1,11 +1,16 @@
-import { Minus, Plus, Wallet } from "phosphor-react-native";
+import { TouchableOpacity } from "react-native";
 
 import { Box } from "@components/atomos/Box";
-import { Button } from "@components/molecules/Button";
-import { InfoArea, Price, Title } from "./styles";
-import { formatCurrency } from "@utils/formatCurrency";
-import { Item } from "src/interfaces/entities/item";
 import { Photo } from "@components/atomos/Photo";
+import { Button } from "@components/molecules/Button";
+import { useModal } from "@stores/context/useModal";
+import { formatCurrency } from "@utils/formatCurrency";
+import { Item } from "@interfaces/entities/item";
+
+import ItemDetail from "../ItemDetail";
+import { InfoArea, Price, Title } from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
 
 export interface ICardProps {
   id: number;
@@ -21,28 +26,39 @@ type CardProps = {
   onPress: (item: Item) => void;
 };
 
-const glyphMap = {
-  plus: Plus,
-  minus: Minus,
-  wallet: Wallet,
-};
-
 export const Card = ({ onPress, item }: CardProps) => {
+  const { closeModal } = useModal();
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const { openModal } = useModal();
+
+  const appendProduct = () => {
+    closeModal();
+    navigation.navigate("cartshopping");
+  };
+
+  const showDetails = () => {
+    openModal({
+      body: <ItemDetail item={item} onSuccess={appendProduct} />,
+    });
+  };
+
   return (
-    <Box flex={1}>
-      <Photo src={item.thumbnail_hd} />
-      <Title>{item.title}</Title>
-      <InfoArea>
-        <Price>{formatCurrency(Number(item.price))}</Price>
-        <Button.Icon
-          name={"plus"}
-          size={24}
-          color={"#000"}
-          weight="fill"
-          onPress={() => onPress(item)}
-          TitleButton=""
-        />
-      </InfoArea>
-    </Box>
+    <TouchableOpacity onPress={showDetails}>
+      <Box flex={1}>
+        <Photo src={item.thumbnail_hd} />
+        <Title>{item.title}</Title>
+        <InfoArea>
+          <Price>{formatCurrency(Number(item.price))}</Price>
+          <Button.Icon
+            name={"plus"}
+            size={24}
+            color={"#000"}
+            weight="fill"
+            onPress={() => onPress(item)}
+            TitleButton=""
+          />
+        </InfoArea>
+      </Box>
+    </TouchableOpacity>
   );
 };

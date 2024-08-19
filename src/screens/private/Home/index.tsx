@@ -20,6 +20,7 @@ export function Home() {
       item,
     });
   }
+
   const renderItem = ({ item, index }: { item: Item; index: number }) => {
     const isSingleItem = index % 4 === 2 || index % 4 === 3;
     return (
