@@ -3,10 +3,9 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.COLORS.WHITE};
-  height: 109px;
   flex-direction: row;
   align-items: center;
-  padding: 0 24px;
+  padding: 20px;
 `;
 
 export const Title = styled.Text`

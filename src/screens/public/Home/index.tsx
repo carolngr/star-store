@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, SafeAreaView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { Card } from "@components/molecules/Card";
@@ -66,25 +66,27 @@ export function Home() {
   }, [isFetchedAfterMount]);
 
   return (
-    <Container>
+    <SafeAreaView style={{ flex: 1 }}>
       <Headers.Simple title={"STAR STORE"} />
-      <Input.Search
-        placeholder="O que você procura?"
-        onChangeText={filterData}
-      />
+      <Container>
+        <Input.Search
+          placeholder="O que você procura?"
+          onChangeText={filterData}
+        />
 
-      <FlatList
-        data={filteredData}
-        key={"_"}
-        numColumns={2}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        columnWrapperStyle={{
-          justifyContent: "space-between",
-          marginBottom: 10,
-        }}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      />
-    </Container>
+        <FlatList
+          data={filteredData}
+          key={"_"}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            marginBottom: 10,
+          }}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        />
+      </Container>
+    </SafeAreaView>
   );
 }
