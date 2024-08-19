@@ -26,11 +26,10 @@ export function Text<T extends FieldValues>({
     name,
     control: form.control,
   });
-  const { formState } = form;
 
   const { error } = useMemo(() => {
     return form.getFieldState(name);
-  }, [form]);
+  }, [form.formState.errors]);
 
   return (
     <View>

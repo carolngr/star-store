@@ -1,5 +1,5 @@
 import theme from "@theme/index";
-import { Modal } from "native-base";
+import { Modal, NativeBaseProvider } from "native-base";
 import React, {
   PropsWithChildren,
   createContext,
@@ -35,19 +35,20 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <modalContext.Provider value={{ closeModal, openModal }}>
-      {children}
-      <Modal isOpen={!!modalState} onClose={closeModal} safeAreaTop={true}>
-        <Modal.Content width={width}>
-          <ThemeProvider theme={theme}>{modalState?.body}</ThemeProvider>
-        </Modal.Content>
-      </Modal>
-    </modalContext.Provider>
+    <NativeBaseProvider>
+      <modalContext.Provider value={{ closeModal, openModal }}>
+        {children}
+        <Modal isOpen={!!modalState} onClose={closeModal} safeAreaTop={true}>
+          <Modal.Content width={width}>
+            <ThemeProvider theme={theme}>{modalState?.body}</ThemeProvider>
+          </Modal.Content>
+        </Modal>
+      </modalContext.Provider>
+    </NativeBaseProvider>
   );
 };
 
 export const useModal = () => {
   const context = useContext(modalContext);
-
   return context;
 };

@@ -1,12 +1,5 @@
 import { View } from "react-native";
-import {
-  CaretRight,
-  CheckSquare,
-  IconWeight,
-  Minus,
-  Plus,
-  Wallet,
-} from "phosphor-react-native";
+import { IconWeight } from "phosphor-react-native";
 import { IconName, glyphMap } from "@theme/icons";
 
 interface IconProps {

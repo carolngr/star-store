@@ -4,6 +4,8 @@ import {
   Minus,
   Plus,
   Wallet,
+  Eye,
+  EyeClosed,
 } from "phosphor-react-native";
 
 export const glyphMap = {
@@ -12,6 +14,8 @@ export const glyphMap = {
   wallet: Wallet,
   caretRight: CaretRight,
   checkSquare: CheckSquare,
+  eye: Eye,
+  eyeClosed: EyeClosed,
 };
 
 export type IconName = keyof typeof glyphMap;

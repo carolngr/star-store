@@ -44,7 +44,7 @@ export const Card = ({ onPress, item }: CardProps) => {
 
   return (
     <TouchableOpacity onPress={showDetails}>
-      <Box flex={1}>
+      <Box>
         <Photo src={item.thumbnail_hd} />
         <Title>{item.title}</Title>
         <InfoArea>

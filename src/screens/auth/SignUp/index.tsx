@@ -1,32 +1,36 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
 
 import { Button } from "@components/molecules/Button";
 import { Input } from "@components/molecules/Input";
 import { Headers } from "@components/templates/Headers";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ILoginProps, findCurrentUserData, login } from "@services/api/auth";
+import {
+  IRegisterProps,
+  findCurrentUserData,
+  login,
+  register,
+} from "@services/api/auth";
 import { useAccessToken } from "@hooks/useAccessToken";
 import { stories } from "@stores/index";
+
+import { registrationSchema } from "./settings";
+import { Container } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
 
-import { loginSchema } from "./settings";
-import { Container } from "./styles";
-
-export function SignIn() {
+export function SignUp() {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
-
   const [loading, setLoading] = useState(false);
-  const form = useForm<ILoginProps>({ resolver: yupResolver(loginSchema) });
-
+  const form = useForm<IRegisterProps>({
+    resolver: yupResolver(registrationSchema),
+  });
   const setCurrentUserData = stories.useCurrentUserStore().setCurrentUserData;
-
-  const handleSubmit = async (dataForm: ILoginProps) => {
+  const handleSubmit = async (dataForm: IRegisterProps) => {
     try {
       setLoading(true);
-      const responseLogin = await login(dataForm);
+      const responseLogin = await register(dataForm);
       if (responseLogin.token) {
         await useAccessToken.setAccessToken({ token: responseLogin.token });
         const responseCurrentUserData = await findCurrentUserData();
@@ -34,7 +38,7 @@ export function SignIn() {
           setCurrentUserData(responseCurrentUserData);
           Toast.show({
             type: "success",
-            text1: "Login efetuado com sucesso!",
+            text1: "Cadastro efetuado com sucesso!",
           });
         }
       }
@@ -50,8 +54,14 @@ export function SignIn() {
 
   return (
     <>
-      <Headers.Simple title="Login" />
+      <Headers.Simple title="Criar conta" />
       <Container>
+        <Input.Text
+          form={form}
+          name="name"
+          placeholder="Nome"
+          autoCapitalize="none"
+        />
         <Input.Text
           form={form}
           name="email"
@@ -59,16 +69,16 @@ export function SignIn() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Input.Text form={form} name="password" placeholder="Senha" />
+        <Input.PasswordInput form={form} name="password" placeholder="Senha" />
         <Button.Primary
-          title="Fazer login"
-          onPress={form.handleSubmit(handleSubmit)}
+          title="Realizar cadastro"
+          onPress={form.handleSubmit(handleSubmit, (err) => console.log(err))}
           isLoading={loading}
         />
         <Button.Primary
-          title="Cria uma conta"
+          title="Já tenho login"
           type="SECONDARY"
-          onPress={() => navigation.navigate("signUp")}
+          onPress={() => navigation.navigate("signIn")}
         />
       </Container>
     </>

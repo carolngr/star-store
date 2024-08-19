@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { BackIcon, Container, Title } from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { AppnavigatorRoutesProps } from "@routes/botton-tabs.routes";
+import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
 
 type Props = {
   title: string;
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function Simple({ title, showBackButton = false }: Props) {
-  const navigation = useNavigation<AppnavigatorRoutesProps>();
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   function handleGoBack() {
     navigation.goBack();

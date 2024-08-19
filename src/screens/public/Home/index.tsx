@@ -1,5 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { useEffect, useRef, useState } from "react";
 import { FlatList, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Card } from "@components/molecules/Card";
 import { Input } from "@components/molecules/Input";
@@ -9,52 +10,64 @@ import { useGetItems } from "@services/api/items/useGetItems";
 
 import { Item } from "src/interfaces/entities/item";
 import { Container } from "./styles";
-import { stories } from "@stores/index";
-import { useEffect, useState } from "react";
 
 export function Home() {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
-  const { data = [] } = useGetItems();
+  const { data = [], isFetchedAfterMount } = useGetItems();
 
-  const [filteredData, setFilteredData] = useState<Item[]>([]);
-  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState<Item[]>(data);
 
-  const currentUser = stories.useCurrentUserStore().currentUser;
-
-  function handleDetailsItem(item: Item) {
-    navigation.navigate("detailsitem", {
-      item,
-    });
-  }
-
-  useEffect(() => {
-    filterData(searchText);
-  }, [data, searchText]);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const filterData = (text: string) => {
-    setSearchText(text);
-    if (text) {
-      const newData = data.filter((item) =>
-        item.title.toLowerCase().includes(text.toLowerCase())
-      );
-      setFilteredData(newData);
-    } else {
-      setFilteredData(data);
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
     }
+
+    debounceTimer.current = setTimeout(() => {
+      if (text) {
+        const newData = data.filter((item) =>
+          item.title.toLowerCase().includes(text.toLowerCase())
+        );
+        setFilteredData(newData);
+      } else {
+        setFilteredData(data);
+      }
+    }, 300);
   };
 
   const renderItem = ({ item, index }: { item: Item; index: number }) => {
     const isSingleItem = index % 4 === 2 || index % 4 === 3;
     return (
-      <View style={{ width: isSingleItem ? "100%" : "50%", padding: 10 }}>
-        <Card key={item.id} onPress={handleDetailsItem} item={item} />
+      <View
+        style={{
+          width: isSingleItem ? "100%" : "50%",
+          padding: 10,
+          minHeight: 200,
+        }}
+      >
+        <Card
+          key={item.id}
+          onPress={() => handleDetailsItem(item)}
+          item={item}
+        />
       </View>
     );
   };
 
+  function handleDetailsItem(item: Item) {
+    navigation.navigate("detailsitem", { item });
+  }
+
+  useEffect(() => {
+    if (data.length > 0) {
+      setFilteredData(data);
+    }
+  }, [isFetchedAfterMount]);
+
   return (
     <Container>
-      <Headers.Simple title={currentUser?.name + "STAR STORE"} />
+      <Headers.Simple title={"STAR STORE"} />
       <Input.Search
         placeholder="O que você procura?"
         onChangeText={filterData}

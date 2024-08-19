@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
@@ -5,18 +6,13 @@ import {
 import { House, ShoppingCart, User } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 
-import { AppRoutes } from "@interfaces/entities/routes";
-import { SignIn } from "@screens/auth/SignIn";
-import { CartShopping } from "@screens/public/CartShopping";
-import { DetailsItem } from "@screens/public/DetailsItem";
-import { Home } from "@screens/public/Home";
-import { Order } from "@screens/private/Order";
-import { OrderView } from "@screens/private/OrderView";
-import { Payment } from "@screens/private/Payment";
-import { ProfileOrderHistory } from "@screens/private/ProfileOrderHistory";
-import { View } from "react-native";
 import Badge from "@components/atomos/Badge";
+import { AppRoutes } from "@interfaces/entities/routes";
+import { CartShopping } from "@screens/public/CartShopping";
+import { Home } from "@screens/public/Home";
 import { stories } from "@stores/index";
+import { AuthRoutes } from "./auth.routes";
+import { DetailsItem } from "@screens/public/DetailsItem";
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
@@ -39,7 +35,6 @@ export function MenuTabs() {
           ),
         }}
       />
-
       <Screen
         name="cartshopping"
         component={CartShopping}
@@ -54,41 +49,36 @@ export function MenuTabs() {
       />
       <Screen
         name="signIn"
-        component={SignIn}
+        component={AuthRoutes}
         options={{
           tabBarIcon: ({ color }) => <User size={FONT_SIZE.LG} color={color} />,
         }}
       />
-
       <Screen
         name="detailsitem"
         component={DetailsItem}
         options={{ tabBarButton: () => null, unmountOnBlur: true }}
       />
-
-      <Screen
+      {/* <Screen
         name="payment"
         component={Payment}
         options={{ unmountOnBlur: true }}
-      />
-
-      <Screen
+      /> */}
+      {/* <Screen
         name="order"
         component={Order}
         options={{ unmountOnBlur: true }}
       />
-
       <Screen
         name="profileorderhistory"
         component={ProfileOrderHistory}
         options={{ unmountOnBlur: true }}
       />
-
       <Screen
         name="orderview"
         component={OrderView}
         options={{ tabBarButton: () => null, unmountOnBlur: true }}
-      />
+      /> */}
     </Navigator>
   );
 }
