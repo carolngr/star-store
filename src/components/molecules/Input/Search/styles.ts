@@ -20,7 +20,7 @@ export const Input = styled(TextInput)`
   flex: 1;
 
   ${({ theme }) => css`
-    color: ${theme.COLORS.WHITE};
+    color: ${theme.COLORS.GRAY_500};
     font-family: ${theme.FONT_FAMILY.REGULAR};
     font-size: ${theme.FONT_SIZE.XS};
   `};

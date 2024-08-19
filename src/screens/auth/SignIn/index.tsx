@@ -21,7 +21,6 @@ export function SignIn() {
     try {
       setLoading(true);
       const responseLogin = await login(dataForm);
-      console.log(responseLogin);
 
       if (responseLogin.token) {
         await useAccessToken.setAccessToken({ token: responseLogin.token });
