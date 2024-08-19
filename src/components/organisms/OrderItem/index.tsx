@@ -1,15 +1,13 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 
-import { Box } from "@components/atomos/Box";
 import { Photo } from "@components/atomos/Photo";
 import { Quantity } from "@components/molecules/Quantity";
-import { Button } from "@components/molecules/Button";
 
 import { stories } from "@stores/index";
 import { Product } from "@stores/reducers/types";
 import { formatCurrency } from "@utils/formatCurrency";
 
-import { Container, Details, Price, Title, BoxBottom, BoxTop } from "./styles";
+import { BoxBottom, BoxTop, Container, Details, Price, Title } from "./styles";
 
 type OrdemProps = {
   item: Product;
@@ -17,14 +15,25 @@ type OrdemProps = {
 };
 
 export const OrderItem = ({ item, fixedAmount }: OrdemProps) => {
-  const [increment, decrement] = stories.useOrderStore((state) => [
+  const [increment, decrement, remove] = stories.useOrderStore((state) => [
     state.increment,
     state.decrement,
+    state.removeProductCart,
   ]);
+
+  const decrementItem = () => {
+    if (item.amount <= 1) {
+      remove(item.id);
+    } else {
+      decrement(item);
+    }
+  };
 
   return (
     <Container>
-      <Photo src={item.thumbnail_hd} />
+      <View style={{ width: "40%" }}>
+        <Photo src={item.thumbnail_hd} />
+      </View>
       <Details>
         <BoxTop>
           <Title>{item.title}</Title>
@@ -40,7 +49,7 @@ export const OrderItem = ({ item, fixedAmount }: OrdemProps) => {
             </>
           ) : (
             <Quantity
-              decrement={() => decrement(item)}
+              decrement={() => decrementItem()}
               increment={() => increment(item)}
               quantity={item.amount}
             />

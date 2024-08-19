@@ -14,11 +14,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" translucent />
         <NativeBaseProvider>
           <ModalProvider>
             <Routes />

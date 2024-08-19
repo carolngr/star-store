@@ -29,7 +29,7 @@ export function ProfileOrderHistory() {
             <InfoBlock
               title={item.title}
               description={item.description}
-              onPress={() => navigation.navigate("orderview")}
+              onPress={() => navigation.navigate("payment")}
             />
           )}
           keyExtractor={(item) => item.id}

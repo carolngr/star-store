@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Box } from "@components/atomos/Box";
 import { Photo } from "@components/atomos/Photo";
 import { Item } from "@interfaces/entities/item";
-import { BlockInfo, Description } from "@screens/private/DetailsItem/styles";
+import { BlockInfo, Description } from "@screens/public/DetailsItem/styles";
 import { stories } from "@stores/index";
 import { formatCurrency } from "@utils/formatCurrency";
 import { formatDate } from "@utils/formateDate";

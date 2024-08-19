@@ -1,30 +1,25 @@
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
 
-import { Headers } from "@components/templates/Headers";
+import { Box } from "@components/atomos/Box";
+import { Photo } from "@components/atomos/Photo";
 import { Button } from "@components/molecules/Button";
 import { Quantity } from "@components/molecules/Quantity";
-import { Photo } from "@components/atomos/Photo";
-import { Box } from "@components/atomos/Box";
+import { Headers } from "@components/templates/Headers";
 
-import { BlockInfo, Description, Price, Title } from "./styles";
-import { stories } from "@stores/index";
-import { useState } from "react";
-import { formatCurrency } from "@utils/formatCurrency";
 import { Content } from "@components/atomos/Content";
 import { AppRoutes } from "@interfaces/entities/routes";
+import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
+import { stories } from "@stores/index";
+import { formatCurrency } from "@utils/formatCurrency";
 import { formatDate } from "@utils/formateDate";
+import { useState } from "react";
+import { BlockInfo, Description, Price, Title } from "./styles";
 
 export function DetailsItem() {
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { params } = useRoute<RouteProp<AppRoutes, "detailsitem">>();
-  const {
-    title = "",
-    id,
-    price,
-    seller,
-    thumbnail_hd,
-    created_at,
-  } = params.item;
+  const { title = "", price, seller, thumbnail_hd, created_at } = params.item;
 
   const [quantity, setQuantity] = useState(1);
 
@@ -41,7 +36,13 @@ export function DetailsItem() {
   };
 
   const appendToCart = () => {
-    appendProduct({ ...params.item, amount: quantity });
+    const successAppendProduct = appendProduct({
+      ...params.item,
+      amount: quantity,
+    });
+    if (successAppendProduct) {
+      navigation.navigate("cartshopping");
+    }
   };
 
   return (

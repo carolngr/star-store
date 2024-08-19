@@ -23,11 +23,6 @@ const updateProductAmount = (
 ) => {
   const modifiedList = selectedProducts.map((product) => {
     if (product.id === item.id) {
-      // TOOO: Validar amount
-      // if (amount < 0) {
-      //   return product;
-      // }
-
       return {
         ...product,
         amount: product.amount + amount,
@@ -82,7 +77,15 @@ export const useOrderStore = create(
           selectedProducts: modifiedList,
         }));
       },
-      removeProductCart: () => {},
+      removeProductCart: (product_id) => {
+        const selectedProducts = get().selectedProducts;
+
+        set(() => ({
+          selectedProducts: selectedProducts.filter(
+            (item) => item.id !== product_id
+          ),
+        }));
+      },
       clearCart: () => {
         set(() => ({
           selectedProducts: [],

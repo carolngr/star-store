@@ -1,27 +1,36 @@
-import { AxiosError, AxiosRequestConfig } from "axios";
+type IErrorData = {
+  codigo: string;
+  mensagem: string;
+};
 
-export interface IErrorData {
-  message: string;
-  config: AxiosRequestConfig;
-  status: boolean;
+export class ErrorResponse<T extends IErrorData | undefined> extends Error {
+  private _data?: T;
+
+  constructor(data?: T) {
+    super();
+    this._data = data;
+    this.name = "";
+  }
+
+  public _get() {
+    return this._data;
+  }
+
+  public validateMessage(message?: string) {
+    super.message = message || "Não foi possível prosseguir com a solicitação";
+  }
 }
 
-const errorResponseInterceptor = (axiosError: AxiosError<any>) => {
-  const { config, response, status } = axiosError;
-  let errorInstance = null;
-  if (axiosError instanceof Error && !response) {
-    errorInstance = String(axiosError);
+const errorResponseInterceptor = (error: any) => {
+  if (error.message === "Network Error") {
+    return Promise.reject(new Error("Erro de conexão"));
   }
-  const error = {
-    config,
-    message:
-      errorInstance ??
-      response?.data?.message ??
-      "Ocorreu um erro ao buscar as informações, tente novamente mais tarde!",
-    status,
-  };
 
-  return Promise.reject(error);
+  return Promise.reject(
+    new ErrorResponse(error?.response?.data).validateMessage(
+      error?.response?.data.mensagem
+    )
+  );
 };
 
 export default errorResponseInterceptor;

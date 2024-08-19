@@ -1,17 +1,22 @@
-import { Text, ScrollView, View, SafeAreaView } from "react-native";
 import { stories } from "@stores/index";
+import { SafeAreaView, ScrollView } from "react-native";
 
 import { Button } from "@components/molecules/Button";
 import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
 import { ZipCode } from "@components/molecules/ZipCode";
-import { Headers } from "@components/templates/Headers";
 import { OrderItem } from "@components/organisms/OrderItem";
+import { Headers } from "@components/templates/Headers";
 
-import { Container, EmptyCart, EmptyTitle } from "./styles";
 import { Box } from "@components/atomos/Box";
 import { useFindAddressByCEP } from "@services/externalApi/viaCEP/useViaCep";
+import { Container, EmptyCart, EmptyTitle } from "./styles";
+import { useAccessTokenValidation } from "@hooks/useAccessToken";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
 
 export function CartShopping() {
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
   const [selectedproducts, clearCart, calcPayment, appendAddress] =
     stories.useOrderStore((state) => [
       state.selectedProducts,
@@ -19,6 +24,8 @@ export function CartShopping() {
       state.calcPayment,
       state.appendAddress,
     ]);
+
+  const { data: authenticated } = useAccessTokenValidation();
 
   const { mutate } = useFindAddressByCEP();
 
@@ -28,6 +35,7 @@ export function CartShopping() {
       mutate(substrText, { onSuccess: (address) => appendAddress(address) });
     }
   };
+  console.log(authenticated);
 
   const renderCartItems = () => {
     return (
@@ -47,11 +55,19 @@ export function CartShopping() {
               valorFrete={calcPayment().freteValue}
               totalValue={calcPayment().totalValue}
             />
-            <Button.Primary
-              title="Ir para o pagamento"
-              type="SECONDARY"
-              onPress={() => console.log("teste")}
-            />
+            {authenticated ? (
+              <Button.Primary
+                title="Ir para o pagamento"
+                type="SECONDARY"
+                onPress={() => console.log("teste")}
+              />
+            ) : (
+              <Button.Primary
+                title="Realizar login"
+                type="PRIMARY"
+                onPress={() => navigation.navigate("signIn")}
+              />
+            )}
           </Container>
         </ScrollView>
       </>

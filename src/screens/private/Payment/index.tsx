@@ -1,4 +1,3 @@
-import { useOrderStore } from "@stores/reducers";
 import { useState } from "react";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
@@ -20,6 +19,7 @@ import {
   TitleName,
 } from "./styles";
 import { useForm } from "react-hook-form";
+import { stories } from "@stores/index";
 
 interface IDataCard {
   titular: string;
@@ -40,7 +40,7 @@ export function Payment() {
     cvv: "000",
   });
 
-  const [items, calcPayment, address] = useOrderStore((state) => [
+  const [items, calcPayment, address] = stories.useOrderStore((state) => [
     state.selectedProducts,
     state.calcPayment,
     state.address,

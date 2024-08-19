@@ -23,19 +23,25 @@ export function Text<T extends FieldValues>({
   ...rest
 }: ITextnputProps<T>) {
   const { field } = useController<T>({
-    name: name,
+    name,
     control: form.control,
   });
   const { formState } = form;
 
   const { error } = useMemo(() => {
     return form.getFieldState(name);
-  }, [formState.errors]);
+  }, [form]);
 
   return (
     <View>
       <Container {...containerProps}>
-        <TextInput ref={inputRef} placeholder={placeholder} {...rest} />
+        <TextInput
+          ref={inputRef}
+          placeholder={placeholder}
+          value={field.value}
+          onChangeText={field.onChange}
+          {...rest}
+        />
       </Container>
       <Error text={error?.message} />
     </View>

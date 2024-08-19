@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useQuery } from "@tanstack/react-query";
 import LOCAL_STORAGE_KEYS from "src/constants/localStorage";
 
 export type TCredentials = { token: string };
@@ -28,3 +29,10 @@ export const useAccessToken: IAccessTokenProps = {
     await AsyncStorage.multiRemove([LOCAL_STORAGE_KEYS.TOKEN]);
   },
 };
+
+export const useAccessTokenValidation = () =>
+  useQuery({
+    queryKey: ["access_token_validation"],
+    queryFn: () =>
+      useAccessToken.getAccessToken().then((res) => Boolean(res?.token)),
+  });

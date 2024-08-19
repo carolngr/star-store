@@ -16,7 +16,7 @@ export type Actions = {
   decrement: (product: Product) => void;
   appendProduct: (product: Product) => boolean;
   appendAddress: (address: IViaCEP) => void;
-  removeProductCart: (product: Product) => void;
+  removeProductCart: (product_id: string) => void;
   clearCart: () => void;
   calcPayment: () => {
     subTotalValue: number;

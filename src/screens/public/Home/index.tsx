@@ -9,11 +9,12 @@ import { useGetItems } from "@services/api/items/useGetItems";
 
 import { Item } from "src/interfaces/entities/item";
 import { Container } from "./styles";
-import { Flex } from "@components/atomos/Flex";
+import { stories } from "@stores/index";
 
 export function Home() {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { data = [] } = useGetItems();
+  const currentUser = stories.useCurrentUserStore().currentUser;
 
   function handleDetailsItem(item: Item) {
     navigation.navigate("detailsitem", {
@@ -31,7 +32,7 @@ export function Home() {
   };
   return (
     <Container>
-      <Headers.Simple title="STAR STORE" />
+      <Headers.Simple title={currentUser?.name + "STAR STORE"} />
       <Input.Search placeholder="O que você procura?" />
 
       <FlatList
