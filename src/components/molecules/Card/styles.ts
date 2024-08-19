@@ -1,7 +1,5 @@
-import styled, { css } from "styled-components/native";
-
 import { TouchableOpacity } from "react-native";
-import { IconPlus } from "../Button/Icon";
+import styled, { css } from "styled-components/native";
 
 export const Container = styled(TouchableOpacity)``;
 

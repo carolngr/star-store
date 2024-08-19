@@ -1,12 +1,7 @@
 import styled from "styled-components/native";
-import { width } from "styled-system";
 
-export const Container = styled.View`
+export const Container = styled.Image`
   background-color: #eeeeee;
-
-  width: 123px;
   height: 123px;
   border-radius: 10px;
-
-  ${width}
 `;

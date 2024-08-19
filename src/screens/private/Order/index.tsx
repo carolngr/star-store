@@ -5,7 +5,7 @@ import { stories } from "@stores/index";
 import { SafeAreaView, Text, View } from "react-native";
 import { Container, Title, Total } from "./styles";
 import { Icons } from "@components/atomos/Icons";
-import { formatCurrency } from "src/util/formatCurrency";
+import { formatCurrency } from "@utils/formatCurrency";
 import { Flex } from "@components/atomos/Flex";
 
 export function Order() {

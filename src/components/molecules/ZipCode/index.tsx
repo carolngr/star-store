@@ -2,7 +2,11 @@ import { Box } from "@components/atomos/Box";
 import { Input } from "@components/molecules/Input";
 import { Container, Title } from "./styles";
 
-export const ZipCode = () => {
+interface IZipCodeProps {
+  onChange?: (text: string) => void;
+}
+
+export const ZipCode = ({ onChange }: IZipCodeProps) => {
   return (
     <Container>
       <Title>Cep</Title>
@@ -10,6 +14,7 @@ export const ZipCode = () => {
         containerProps={{ width: "50%" }}
         placeholder="XXXXX-XXX"
         type="zip-code"
+        onChangeText={onChange}
       />
     </Container>
   );

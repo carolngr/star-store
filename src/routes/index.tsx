@@ -1,9 +1,8 @@
 import { View } from "react-native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { MenuTabs } from "./botton-tabs.routes";
-
-import { AppRoutes } from "./app.routes";
 import { useTheme } from "styled-components/native";
+
+import { MenuTabs } from "./botton-tabs.routes";
 
 export function Routes() {
   const COLORS = useTheme();

@@ -27,6 +27,15 @@
       ],
       "@stores/*": [
         "./src/stores/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
       ]
     }
   }

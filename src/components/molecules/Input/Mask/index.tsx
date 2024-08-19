@@ -18,14 +18,19 @@ export const Mask = ({
   const [cep, setCep] = useState("");
 
   return (
-    <Container {...containerProps}>
-      <TextInputMask
-        type={type}
-        value={cep}
-        onChangeText={(text) => setCep(text)}
-        placeholder={placeholder}
-        {...rest}
-      />
-    </Container>
+    <>
+      <Container {...containerProps}>
+        <TextInputMask
+          type={type}
+          value={cep}
+          placeholder={placeholder}
+          {...rest}
+          onChangeText={(text) => {
+            setCep(text);
+            rest.onChangeText?.(text);
+          }}
+        />
+      </Container>
+    </>
   );
 };

@@ -1,8 +1,6 @@
 import { SafeAreaView } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
-import { AppRoutes } from "@routes/botton-tabs.routes";
-
 import { Headers } from "@components/templates/Headers";
 import { Button } from "@components/molecules/Button";
 import { Quantity } from "@components/molecules/Quantity";
@@ -12,19 +10,20 @@ import { Box } from "@components/atomos/Box";
 import { BlockInfo, Description, Price, Title } from "./styles";
 import { stories } from "@stores/index";
 import { useState } from "react";
-import { formatCurrency } from "src/util/formatCurrency";
+import { formatCurrency } from "@utils/formatCurrency";
 import { Content } from "@components/atomos/Content";
+import { AppRoutes } from "@interfaces/entities/routes";
+import { formatDate } from "@utils/formateDate";
 
 export function DetailsItem() {
   const { params } = useRoute<RouteProp<AppRoutes, "detailsitem">>();
   const {
     title = "",
-    date,
     id,
     price,
     seller,
-    thumbnailHd,
-    zipcode,
+    thumbnail_hd,
+    created_at,
   } = params.item;
 
   const [quantity, setQuantity] = useState(1);
@@ -50,14 +49,13 @@ export function DetailsItem() {
       <Headers.Simple title="Detalhes" showBackButton />
       <Content>
         <Box>
-          <Photo width={"100%"} />
+          <Photo src={thumbnail_hd} />
 
           <BlockInfo>
             <Title>{title}</Title>
-            <Description>Data: {date}</Description>
+            <Description>Data: {formatDate(created_at)}</Description>
             <Description>Vendedor: {seller}</Description>
-            <Description>Cep: {zipcode}</Description>
-            <Price>{formatCurrency(price)}</Price>
+            <Price>{formatCurrency(Number(price))}</Price>
             <Quantity
               decrement={() => handleDecrement()}
               increment={() => handleIncrement()}

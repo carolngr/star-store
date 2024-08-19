@@ -9,11 +9,25 @@ import { OrderItem } from "@components/organisms/OrderItem";
 
 import { Container, EmptyCart, EmptyTitle } from "./styles";
 import { Box } from "@components/atomos/Box";
+import { useFindAddressByCEP } from "@services/externalApi/viaCEP/useViaCep";
 
 export function CartShopping() {
-  const [selectedproducts, clearCart, calcPayment] = stories.useOrderStore(
-    (state) => [state.selectedProducts, state.clearCart, state.calcPayment]
-  );
+  const [selectedproducts, clearCart, calcPayment, appendAddress] =
+    stories.useOrderStore((state) => [
+      state.selectedProducts,
+      state.clearCart,
+      state.calcPayment,
+      state.appendAddress,
+    ]);
+
+  const { mutate } = useFindAddressByCEP();
+
+  const onChangeZipCode = (text: string) => {
+    if (text.length === 9) {
+      const substrText = text.replace("-", "");
+      mutate(substrText, { onSuccess: (address) => appendAddress(address) });
+    }
+  };
 
   const renderCartItems = () => {
     return (
@@ -23,11 +37,11 @@ export function CartShopping() {
           <Container>
             <Box>
               {selectedproducts.map((product) => (
-                <OrderItem item={product} key={product.title} />
+                <OrderItem item={product} key={product.id} />
               ))}
             </Box>
 
-            <ZipCode />
+            <ZipCode onChange={onChangeZipCode} />
             <PaymentInfoArea
               subTotal={calcPayment().subTotalValue}
               valorFrete={calcPayment().freteValue}

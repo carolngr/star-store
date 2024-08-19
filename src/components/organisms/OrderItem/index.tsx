@@ -7,7 +7,7 @@ import { Button } from "@components/molecules/Button";
 
 import { stories } from "@stores/index";
 import { Product } from "@stores/reducers/types";
-import { formatCurrency } from "src/util/formatCurrency";
+import { formatCurrency } from "@utils/formatCurrency";
 
 import { Container, Details, Price, Title, BoxBottom, BoxTop } from "./styles";
 
@@ -24,16 +24,15 @@ export const OrderItem = ({ item, fixedAmount }: OrdemProps) => {
 
   return (
     <Container>
-      <Photo />
+      <Photo src={item.thumbnail_hd} />
       <Details>
         <BoxTop>
           <Title>{item.title}</Title>
-          <Price>{formatCurrency(item.price)}</Price>
+          <Price>{formatCurrency(Number(item.price))}</Price>
         </BoxTop>
 
         <BoxBottom>
           <Text>Vendedor: {item.seller}</Text>
-          <Text>Cep: {item.zipcode}</Text>
           {fixedAmount ? (
             <>
               <Text>Quantidade</Text>

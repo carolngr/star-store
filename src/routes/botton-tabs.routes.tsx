@@ -2,35 +2,18 @@ import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-
 import { House, ShoppingCart, User } from "phosphor-react-native";
-
 import { useTheme } from "styled-components/native";
 
-import { AppRoutes } from "./app.routes";
-
+import { AppRoutes } from "@interfaces/entities/routes";
 import { SignIn } from "@screens/auth/SignIn";
-import { Home } from "@screens/private/Home";
 import { CartShopping } from "@screens/private/CartShopping";
 import { DetailsItem } from "@screens/private/DetailsItem";
-import { Product } from "@stores/reducers/types";
-import { Payment } from "@screens/private/Payment";
+import { Home } from "@screens/private/Home";
 import { Order } from "@screens/private/Order";
-import { ProfileOrderHistory } from "@screens/private/ProfileOrderHistory";
 import { OrderView } from "@screens/private/OrderView";
-
-export type AppRoutes = {
-  home: undefined;
-  cartshopping: undefined;
-  signIn: undefined;
-  detailsitem: {
-    item: Product;
-  };
-  payment: undefined;
-  order: undefined;
-  profileorderhistory: undefined;
-  orderview: undefined;
-};
+import { Payment } from "@screens/private/Payment";
+import { ProfileOrderHistory } from "@screens/private/ProfileOrderHistory";
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 

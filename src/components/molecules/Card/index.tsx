@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
-import { Container, InfoArea, Photo, Price, Title } from "./styles";
-import { Box } from "@components/atomos/Box";
+import { Minus, Plus, Wallet } from "phosphor-react-native";
 
+import { Box } from "@components/atomos/Box";
 import { Button } from "@components/molecules/Button";
-import { IconWeight, Minus, Plus, Wallet } from "phosphor-react-native";
-import { formatCurrency } from "src/util/formatCurrency";
+import { InfoArea, Price, Title } from "./styles";
+import { formatCurrency } from "@utils/formatCurrency";
+import { Item } from "src/interfaces/entities/item";
+import { Photo } from "@components/atomos/Photo";
 
 export interface ICardProps {
   id: number;
@@ -16,8 +17,8 @@ export interface ICardProps {
   date: string;
 }
 type CardProps = {
-  item: ICardProps;
-  onPress: (item: ICardProps) => void;
+  item: Item;
+  onPress: (item: Item) => void;
 };
 
 const glyphMap = {
@@ -26,25 +27,13 @@ const glyphMap = {
   wallet: Wallet,
 };
 
-type IconName = keyof typeof glyphMap;
-
-interface IconProps {
-  name: IconName;
-  size?: number;
-  color?: string;
-  weight: IconWeight;
-}
-
 export const Card = ({ onPress, item }: CardProps) => {
   return (
-    <Box>
-      <Photo>
-        <Text>Imagem</Text>
-      </Photo>
+    <Box flex={1}>
+      <Photo src={item.thumbnail_hd} />
       <Title>{item.title}</Title>
       <InfoArea>
-        <Price>{formatCurrency(item.price)}</Price>
-
+        <Price>{formatCurrency(Number(item.price))}</Price>
         <Button.Icon
           name={"plus"}
           size={24}

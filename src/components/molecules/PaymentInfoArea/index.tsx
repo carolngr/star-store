@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { BoxInformation, Container, Title, TotalPrice } from "./styles";
 import { Divider } from "@components/atomos/Divider";
 import { useOrderStore } from "@stores/reducers";
-import { formatCurrency } from "src/util/formatCurrency";
+import { formatCurrency } from "@utils/formatCurrency";
 
 type ValoresProps = {
   subTotal: number;

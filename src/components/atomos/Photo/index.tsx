@@ -1,18 +1,8 @@
 import { PropsWithChildren } from "react";
-import {
-  FlexboxProps,
-  GridGapProps,
-  LayoutProps,
-  SpaceProps,
-} from "styled-system";
+import { ImageProps } from "react-native/types";
 import { Container } from "./styles";
 
-export interface IPhotoProps
-  extends PropsWithChildren,
-    FlexboxProps,
-    SpaceProps,
-    LayoutProps,
-    GridGapProps {}
+export interface IPhotoProps extends PropsWithChildren, ImageProps {}
 
 export const Photo = ({ children, ...rest }: IPhotoProps) => {
   return <Container {...rest}>{children}</Container>;

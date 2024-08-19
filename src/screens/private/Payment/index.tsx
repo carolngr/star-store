@@ -1,32 +1,25 @@
-import { useState } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import { CaretRight, Plus, Wallet } from "phosphor-react-native";
 import { useOrderStore } from "@stores/reducers";
+import { useState } from "react";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
-import { Box } from "@components/atomos/Box";
-import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
 import { Button } from "@components/molecules/Button";
 import { Input } from "@components/molecules/Input";
+import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
 
+import { Icons } from "@components/atomos/Icons";
+import { InfoBlock } from "@components/molecules/InfoBlock";
 import { Headers } from "@components/templates/Headers";
 import {
   Container,
-  PaymentOptions,
-  Option,
   CredCart,
-  TitleName,
-  Form,
   Description,
+  Form,
   ListCard,
+  Option,
+  PaymentOptions,
+  TitleName,
 } from "./styles";
-import { Icons } from "@components/atomos/Icons";
-import { InfoBlock } from "@components/molecules/InfoBlock";
+import { useForm } from "react-hook-form";
 
 interface IDataCard {
   titular: string;
@@ -36,6 +29,7 @@ interface IDataCard {
 }
 
 export function Payment() {
+  const form = useForm();
   const [showListCard, showListCredCard] = useState(false);
   const [isShowForm, setShowForm] = useState(false);
 
@@ -46,10 +40,17 @@ export function Payment() {
     cvv: "000",
   });
 
-  const [items, calcPayment] = useOrderStore((state) => [
+  const [items, calcPayment, address] = useOrderStore((state) => [
     state.selectedProducts,
     state.calcPayment,
+    state.address,
   ]);
+
+  const formatAddress = () => {
+    return `${address?.logradouro}, ${12312} ${address?.bairro}, ${
+      address?.localidade
+    } / ${address?.uf}`;
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -108,6 +109,8 @@ export function Payment() {
         {isShowForm && (
           <Form>
             <Input.Text
+              form={form}
+              name="name"
               placeholder="Nome do titular"
               value={datacard?.titular}
               onChangeText={(text) =>
@@ -146,6 +149,8 @@ export function Payment() {
               />
 
               <Input.Text
+                form={form}
+                name="name"
                 containerProps={{ width: "50%" }}
                 placeholder="CVV"
                 keyboardType="numeric"
@@ -160,11 +165,7 @@ export function Payment() {
 
         {!showListCard && !isShowForm && (
           <>
-            <InfoBlock
-              title="Endereço"
-              description="Rua são martins, 79
-              CENTRO, João Pessoa / PB"
-            />
+            <InfoBlock title="Endereço" description={formatAddress()} />
             <PaymentInfoArea
               subTotal={calcPayment().subTotalValue}
               valorFrete={calcPayment().freteValue}

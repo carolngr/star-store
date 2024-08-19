@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Actions, Product, State } from "./types";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IViaCEP } from "@interfaces/entities/viaCep";
 
 const defaultState: State = {
   selectedProducts: [],
@@ -9,10 +10,10 @@ const defaultState: State = {
 };
 
 const validationProductExists = (
-  productTitle: string,
+  productId: string,
   selectedProducts: Product[]
 ) => {
-  return selectedProducts.find((product) => product.title === productTitle);
+  return selectedProducts.find((product) => product.id === productId);
 };
 
 const updateProductAmount = (
@@ -21,10 +22,11 @@ const updateProductAmount = (
   amount: number
 ) => {
   const modifiedList = selectedProducts.map((product) => {
-    if (product.title === item.title) {
-      if (amount < 0) {
-        return product;
-      }
+    if (product.id === item.id) {
+      // TOOO: Validar amount
+      // if (amount < 0) {
+      //   return product;
+      // }
 
       return {
         ...product,
@@ -43,7 +45,7 @@ export const useOrderStore = create(
       appendProduct: (product: Product) => {
         const selectedProducts = get().selectedProducts;
         const productExistis = validationProductExists(
-          product.title,
+          product.id,
           selectedProducts
         );
 
@@ -88,22 +90,25 @@ export const useOrderStore = create(
         const selectedProducts = get().selectedProducts;
 
         const subTotal = selectedProducts.reduce(
-          (acc, item) => acc + item.price * item.amount,
+          (acc, item) => acc + Number(item.price) * item.amount,
           0
         );
 
         const total = selectedProducts.reduce(
-          (acc, item) => acc + item.price * item.amount + 40,
+          (acc, item) => acc + Number(item.price) * item.amount + 40,
           0
         );
-
-        console.log(total);
 
         return {
           freteValue: 40,
           subTotalValue: subTotal,
           totalValue: total,
         };
+      },
+      appendAddress: (address: IViaCEP) => {
+        set(() => ({
+          address,
+        }));
       },
     }),
     {
