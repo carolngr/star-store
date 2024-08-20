@@ -59,7 +59,7 @@ export function CartShopping() {
               <Button.Primary
                 title="Ir para o pagamento"
                 type="SECONDARY"
-                onPress={() => console.log("teste")}
+                onPress={() => navigation.navigate("payment")}
               />
             ) : (
               <Button.Primary

@@ -13,6 +13,7 @@ import { Home } from "@screens/public/Home";
 import { stories } from "@stores/index";
 import { AuthRoutes } from "./auth.routes";
 import { DetailsItem } from "@screens/public/DetailsItem";
+import { PaymentRoutes } from "./payment.routes";
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
 
@@ -35,9 +36,10 @@ export function MenuTabs() {
           ),
         }}
       />
+
       <Screen
         name="cartshopping"
-        component={CartShopping}
+        component={PaymentRoutes}
         options={{
           tabBarIcon: ({ color }) => (
             <View>
@@ -47,6 +49,7 @@ export function MenuTabs() {
           ),
         }}
       />
+
       <Screen
         name="signIn"
         component={AuthRoutes}
