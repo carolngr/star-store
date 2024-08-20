@@ -2,10 +2,9 @@ import { Text, View } from "react-native";
 
 import { Photo } from "@components/atomos/Photo";
 import { Quantity } from "@components/molecules/Quantity";
-
 import { stories } from "@stores/index";
-import { Product } from "@stores/reducers/types";
 import { formatCurrency } from "@utils/formatCurrency";
+import { Product } from "@stores/reducers/useOrderStore/types";
 
 import { BoxBottom, BoxTop, Container, Details, Price, Title } from "./styles";
 

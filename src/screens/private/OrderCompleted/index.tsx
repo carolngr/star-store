@@ -7,19 +7,29 @@ import { Container, Title, Total } from "./styles";
 import { Icons } from "@components/atomos/Icons";
 import { formatCurrency } from "@utils/formatCurrency";
 import { Flex } from "@components/atomos/Flex";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { AppRoutes } from "@interfaces/entities/routes";
 
-export function Order() {
-  const [selectedproducts, clearCart, calcPayment] = stories.useOrderStore(
-    (state) => [state.selectedProducts, state.clearCart, state.calcPayment]
-  );
+export function OrderCompleted() {
+  const { params } = useRoute<RouteProp<AppRoutes, "orderCompleted">>();
+  const order = params.order;
+
+  const sub_total_value = order.items.reduce((preview, current) => {
+    return Math.min(Number(current.price) * current.quantity) + preview;
+  }, 0);
+  const total_value = sub_total_value + order.shipping_value;
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Headers.Simple title="Pedidos" showBackButton />
+      <Headers.Simple title={`Pedido: #${order.order_code}`} showBackButton />
       <Container>
         <Box>
-          {selectedproducts.map((product) => (
-            <OrderItem item={product} key={product.title} fixedAmount={true} />
+          {order.items.map((product, index) => (
+            <OrderItem
+              item={product}
+              key={product.id + index}
+              fixedAmount={true}
+            />
           ))}
         </Box>
         <Box>
@@ -29,7 +39,7 @@ export function Order() {
           </Flex>
           <Flex justifyContent={"space-between"}>
             <Text>Total</Text>
-            <Total>{formatCurrency(calcPayment().totalValue)}</Total>
+            <Total>{formatCurrency(total_value)}</Total>
           </Flex>
         </Box>
       </Container>

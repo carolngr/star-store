@@ -1,43 +1,30 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
 
 import { Button } from "@components/molecules/Button";
 import { Input } from "@components/molecules/Input";
 import { Headers } from "@components/templates/Headers";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ILoginProps, findCurrentUserData, login } from "@services/api/auth";
-import { useAccessToken } from "@hooks/useAccessToken";
-import { stories } from "@stores/index";
 import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
+import { ILoginProps, login } from "@services/api/auth";
 
+import { useAuthenticate } from "@hooks/useAuhenticate";
 import { loginSchema } from "./settings";
 import { Container } from "./styles";
 
 export function SignIn() {
-  const navigation = useNavigation<AppNavigatorRoutesProps>();
-
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const form = useForm<ILoginProps>({ resolver: yupResolver(loginSchema) });
-
-  const setCurrentUserData = stories.useCurrentUserStore().setCurrentUserData;
+  const { auth } = useAuthenticate();
 
   const handleSubmit = async (dataForm: ILoginProps) => {
     try {
       setLoading(true);
       const responseLogin = await login(dataForm);
-      if (responseLogin.token) {
-        await useAccessToken.setAccessToken({ token: responseLogin.token });
-        const responseCurrentUserData = await findCurrentUserData();
-        if (responseCurrentUserData) {
-          setCurrentUserData(responseCurrentUserData);
-          Toast.show({
-            type: "success",
-            text1: "Login efetuado com sucesso!",
-          });
-        }
-      }
+      await auth(responseLogin.token);
     } catch (error) {
       Toast.show({
         type: "error",
@@ -59,7 +46,7 @@ export function SignIn() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <Input.Text form={form} name="password" placeholder="Senha" />
+        <Input.PasswordInput form={form} name="password" placeholder="Senha" />
         <Button.Primary
           title="Fazer login"
           onPress={form.handleSubmit(handleSubmit)}

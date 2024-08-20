@@ -2,52 +2,48 @@ import React, { useState } from "react";
 import {
   FlatList,
   SafeAreaView,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-
-import { Button } from "@components/molecules/Button";
-import { Input } from "@components/molecules/Input";
-
-import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
-import { InfoBlock } from "@components/molecules/InfoBlock";
-
-import { Icons } from "@components/atomos/Icons";
-import { Box } from "@components/atomos/Box";
-
-import { Headers } from "@components/templates/Headers";
-
-import { useForm } from "react-hook-form";
-import { stories } from "@stores/index";
-import { useModal } from "@stores/context/useModal";
-import { cartSchema } from "./settings";
-import { yupResolver } from "@hookform/resolvers/yup";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
 
-import { cart } from "@services/api/Cart";
-import { useCarts } from "@services/api/Cart/useCarts";
-
-import { Container, Form, ListCard, Option, PaymentOptions } from "./styles";
-import { CredCart } from "@interfaces/entities/credCart";
-import { CredCarts } from "@components/molecules/CredCarts";
+import { useCreateOrder } from "@services/api/orders/useOrders";
+import { Button } from "@components/molecules/Button";
+import { InfoBlock } from "@components/molecules/InfoBlock";
+import { PaymentInfoArea } from "@components/molecules/PaymentInfoArea";
+import { Icons } from "@components/atomos/Icons";
+import { Headers } from "@components/templates/Headers";
+import { useModal } from "@stores/context/useModal";
+import { stories } from "@stores/index";
+import { useCarts } from "@services/api/cart/useCarts";
 import { Content } from "@components/atomos/Content";
+import { CredCarts } from "@components/molecules/CredCarts";
+import { CredCart } from "@interfaces/entities/credCart";
+import { ICreateOrderProps } from "@services/api/orders";
+
+import { CartForm } from "./CartForm";
+import { Container, ListCard, Option, PaymentOptions } from "./styles";
 
 export function Payment() {
-  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
   const { closeModal } = useModal();
   const { openModal } = useModal();
   const { data = [] } = useCarts();
-  const form = useForm<CredCart>({ resolver: yupResolver(cartSchema) as any });
 
-  const [datacard, setDataCard] = useState<CredCart>({} as CredCart);
+  const [dataCard, setDataCard] = useState<CredCart>({} as CredCart);
 
-  const [items, calcPayment, address] = stories.useOrderStore((state) => [
-    state.selectedProducts,
-    state.calcPayment,
-    state.address,
-  ]);
+  const [calcPayment, address, items, clearCart] = stories.useOrderStore(
+    (state) => [
+      state.calcPayment,
+      state.address,
+      state.selectedProducts,
+      state.clearCart,
+    ]
+  );
 
   const formatAddress = () => {
     return `${address?.logradouro}, ${12312} ${address?.bairro}, ${
@@ -55,79 +51,9 @@ export function Payment() {
     } / ${address?.uf}`;
   };
 
-  const handleSubmit = async (dataForm: CredCart) => {
-    try {
-      dataForm.main_card = true;
-      setLoading(true);
-      const responseCart = await cart(dataForm);
-      Toast.show({
-        type: "success",
-        text1: "Cadastro efetuado com sucesso!",
-      });
-    } catch (error) {
-      Toast.show({
-        type: "error",
-        text1: String(error),
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const newCart = () => {
     openModal({
-      body: (
-        <Box>
-          <View>
-            <Form>
-              <Input.Text
-                form={form}
-                name="title"
-                placeholder="Nome do titular"
-              />
-
-              <Input.Mask
-                form={form}
-                name="number"
-                type="credit-card"
-                placeholder="Número do cartão de crédito"
-                keyboardType="numeric"
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  gap: 10,
-                }}
-              >
-                <Input.Mask
-                  form={form}
-                  name="valid_date"
-                  containerProps={{ width: "50%" }}
-                  type="custom"
-                  options={{ mask: "99/99" }}
-                  placeholder="Validade"
-                />
-
-                <Input.Text
-                  form={form}
-                  name="cvv"
-                  containerProps={{ width: "100%" }}
-                  placeholder="CVV"
-                  keyboardType="numeric"
-                  maxLength={3}
-                />
-              </View>
-
-              <Button.Primary
-                title="Cadastrar"
-                type="SECONDARY"
-                onPress={form.handleSubmit(handleSubmit)}
-              />
-            </Form>
-          </View>
-        </Box>
-      ),
+      body: <CartForm />,
     });
   };
 
@@ -136,14 +62,49 @@ export function Payment() {
     closeModal();
   };
 
-  const handleDonePaymente = () => {
-    const data = Object.values(datacard);
+  const { mutateAsync, isPending } = useCreateOrder();
 
-    if (data.length === 0)
+  const handleDonePaymente = () => {
+    const data = Object.values(dataCard);
+    if (data.length === 0 && !address) {
       return Toast.show({
         type: "error",
         text1: "Necessário selecionar um cartão",
       });
+    }
+    const bodyArgs: ICreateOrderProps = {
+      card: {
+        cvv: dataCard.cvv,
+        main_card: dataCard.main_card,
+        number: dataCard.number,
+        title: dataCard.title,
+        valid_date: dataCard.valid_date,
+      },
+      address: {
+        city: address?.localidade ?? "Cidade",
+        country: "Brazil",
+        postal_code: address?.cep ?? "12312312",
+        state: address?.uf ?? "Estado",
+        street: address?.logradouro ?? "Rua",
+      },
+      shipping_value: 40,
+      status: "pending",
+      items: items.map((item) => ({
+        item_id: item.id,
+        price: Number(item.price),
+        quantity: item.amount,
+      })),
+    };
+    mutateAsync(bodyArgs, {
+      onSuccess: () => {
+        Toast.show({
+          type: "success",
+          text1: "Pedido efetivado com sucesso!",
+        });
+        clearCart();
+        navigation.navigate("profileOrderHistory");
+      },
+    });
   };
 
   const listCart = () => {
@@ -158,7 +119,7 @@ export function Payment() {
             renderItem={({ item }) => (
               <TouchableOpacity
                 key={item.id}
-                onPress={() => handleCredCart(item)}
+                onPress={() => handleCredCart(item as any)}
               >
                 <View>
                   <ListCard>
@@ -180,7 +141,7 @@ export function Payment() {
     <SafeAreaView style={{ flex: 1 }}>
       <Headers.Simple title="Pagamento" showBackButton />
       <Container>
-        <CredCarts item={datacard} />
+        <CredCarts item={dataCard} />
 
         <PaymentOptions>
           <Option>
@@ -211,6 +172,7 @@ export function Payment() {
         <Button.Primary
           title="Confirmar pagamento"
           type="SECONDARY"
+          isLoading={isPending}
           onPress={() => handleDonePaymente()}
         />
       </Container>

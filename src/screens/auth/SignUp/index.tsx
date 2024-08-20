@@ -6,42 +6,28 @@ import { Button } from "@components/molecules/Button";
 import { Input } from "@components/molecules/Input";
 import { Headers } from "@components/templates/Headers";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  IRegisterProps,
-  findCurrentUserData,
-  login,
-  register,
-} from "@services/api/auth";
-import { useAccessToken } from "@hooks/useAccessToken";
-import { stories } from "@stores/index";
+import { IRegisterProps, register } from "@services/api/auth";
 
-import { registrationSchema } from "./settings";
-import { Container } from "./styles";
+import { useAuthenticate } from "@hooks/useAuhenticate";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/botton-tabs.routes";
+import { registrationSchema } from "./settings";
+import { Container } from "./styles";
 
 export function SignUp() {
-  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const form = useForm<IRegisterProps>({
     resolver: yupResolver(registrationSchema),
   });
-  const setCurrentUserData = stories.useCurrentUserStore().setCurrentUserData;
+
+  const { auth } = useAuthenticate();
+
   const handleSubmit = async (dataForm: IRegisterProps) => {
     try {
       setLoading(true);
-      const responseLogin = await register(dataForm);
-      if (responseLogin.token) {
-        await useAccessToken.setAccessToken({ token: responseLogin.token });
-        const responseCurrentUserData = await findCurrentUserData();
-        if (responseCurrentUserData) {
-          setCurrentUserData(responseCurrentUserData);
-          Toast.show({
-            type: "success",
-            text1: "Cadastro efetuado com sucesso!",
-          });
-        }
-      }
+      const responseRegister = await register(dataForm);
+      auth(responseRegister.token);
     } catch (error) {
       Toast.show({
         type: "error",
@@ -72,7 +58,7 @@ export function SignUp() {
         <Input.PasswordInput form={form} name="password" placeholder="Senha" />
         <Button.Primary
           title="Realizar cadastro"
-          onPress={form.handleSubmit(handleSubmit, (err) => console.log(err))}
+          onPress={form.handleSubmit(handleSubmit)}
           isLoading={loading}
         />
         <Button.Primary

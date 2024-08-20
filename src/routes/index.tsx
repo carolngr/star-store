@@ -14,7 +14,6 @@ export function Routes() {
     <View style={{ flex: 1 }}>
       <NavigationContainer theme={theme}>
         <MenuTabs />
-        {/* <MenuTabs /> */}
       </NavigationContainer>
     </View>
   );

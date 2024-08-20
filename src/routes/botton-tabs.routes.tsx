@@ -1,18 +1,17 @@
-import { View } from "react-native";
 import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import { House, ShoppingCart, User } from "phosphor-react-native";
+import { View } from "react-native";
 import { useTheme } from "styled-components/native";
 
 import Badge from "@components/atomos/Badge";
 import { AppRoutes } from "@interfaces/entities/routes";
-import { CartShopping } from "@screens/public/CartShopping";
+import { DetailsItem } from "@screens/public/DetailsItem";
 import { Home } from "@screens/public/Home";
 import { stories } from "@stores/index";
 import { AuthRoutes } from "./auth.routes";
-import { DetailsItem } from "@screens/public/DetailsItem";
 import { PaymentRoutes } from "./payment.routes";
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -51,7 +50,7 @@ export function MenuTabs() {
       />
 
       <Screen
-        name="signIn"
+        name="auth"
         component={AuthRoutes}
         options={{
           tabBarIcon: ({ color }) => <User size={FONT_SIZE.LG} color={color} />,
@@ -62,26 +61,6 @@ export function MenuTabs() {
         component={DetailsItem}
         options={{ tabBarButton: () => null, unmountOnBlur: true }}
       />
-      {/* <Screen
-        name="payment"
-        component={Payment}
-        options={{ unmountOnBlur: true }}
-      /> */}
-      {/* <Screen
-        name="order"
-        component={Order}
-        options={{ unmountOnBlur: true }}
-      />
-      <Screen
-        name="profileorderhistory"
-        component={ProfileOrderHistory}
-        options={{ unmountOnBlur: true }}
-      />
-      <Screen
-        name="orderview"
-        component={OrderView}
-        options={{ tabBarButton: () => null, unmountOnBlur: true }}
-      /> */}
     </Navigator>
   );
 }

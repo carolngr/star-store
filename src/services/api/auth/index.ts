@@ -15,6 +15,10 @@ export interface IRegisterProps {
   email: string;
   password: string;
 }
+export interface IUpdateRegisterProps {
+  name: string;
+  email: string;
+}
 
 export interface IRegisterResponse {
   token: string;
@@ -31,5 +35,11 @@ export const findCurrentUserData = () => {
 export const register = (body: IRegisterProps) => {
   return api
     .post<IRegisterResponse>("/auth/register", body)
+    .then((res) => res.data);
+};
+
+export const updateRegister = (body: IUpdateRegisterProps) => {
+  return api
+    .put<IRegisterResponse>("/auth/update-register", body)
     .then((res) => res.data);
 };

@@ -24,8 +24,7 @@ export function CartShopping() {
       state.calcPayment,
       state.appendAddress,
     ]);
-
-  const { data: authenticated } = useAccessTokenValidation();
+  const { currentUser } = stories.useCurrentUserStore();
 
   const { mutate } = useFindAddressByCEP();
 
@@ -35,7 +34,6 @@ export function CartShopping() {
       mutate(substrText, { onSuccess: (address) => appendAddress(address) });
     }
   };
-  console.log(authenticated);
 
   const renderCartItems = () => {
     return (
@@ -55,7 +53,7 @@ export function CartShopping() {
               valorFrete={calcPayment().freteValue}
               totalValue={calcPayment().totalValue}
             />
-            {authenticated ? (
+            {currentUser ? (
               <Button.Primary
                 title="Ir para o pagamento"
                 type="SECONDARY"
@@ -65,7 +63,7 @@ export function CartShopping() {
               <Button.Primary
                 title="Realizar login"
                 type="PRIMARY"
-                onPress={() => navigation.navigate("signIn")}
+                onPress={() => navigation.navigate("auth")}
               />
             )}
           </Container>

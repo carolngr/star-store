@@ -6,4 +6,5 @@ export type State = {
 
 export type Actions = {
   setCurrentUserData: (args: User) => void;
+  setClearUser: () => void;
 };

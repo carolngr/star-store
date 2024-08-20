@@ -1,7 +1,7 @@
 export type CredCart = {
   title: string;
   number: string;
-  cvv: number;
+  cvv: string;
   main_card: boolean;
   valid_date: string;
 };

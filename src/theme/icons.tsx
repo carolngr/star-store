@@ -6,6 +6,9 @@ import {
   Wallet,
   Eye,
   EyeClosed,
+  SignOut,
+  PencilLine,
+  Table,
 } from "phosphor-react-native";
 
 export const glyphMap = {
@@ -16,6 +19,9 @@ export const glyphMap = {
   checkSquare: CheckSquare,
   eye: Eye,
   eyeClosed: EyeClosed,
+  signOut: SignOut,
+  pencil: PencilLine,
+  table: Table,
 };
 
 export type IconName = keyof typeof glyphMap;

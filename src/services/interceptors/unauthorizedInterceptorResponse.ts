@@ -1,7 +1,6 @@
 import { useAccessToken } from "@hooks/useAccessToken";
-import { AxiosError } from "axios";
 
-const unauthorizedInterceptorResponse = async (error: AxiosError) => {
+const unauthorizedInterceptorResponse = async (error: any) => {
   const status_error = error.response?.status;
 
   if (status_error === 401) {

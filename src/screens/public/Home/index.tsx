@@ -16,7 +16,6 @@ export function Home() {
   const { data = [], isFetchedAfterMount } = useGetItems();
 
   const [filteredData, setFilteredData] = useState<Item[]>(data);
-
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const filterData = (text: string) => {

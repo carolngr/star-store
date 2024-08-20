@@ -1,5 +1,5 @@
+import { CredCart } from "@interfaces/entities/credCart";
 import { api } from "../../axiosApi";
-import { ICard } from "@interfaces/entities/cart";
 
 export type ICardResponse = {
   id: string;
@@ -13,13 +13,10 @@ export type ICardResponse = {
   updated_at: Date;
 };
 
-export const cart = (body: ICard) => {
+export const createCart = (body: CredCart) => {
   return api.post<ICardResponse>("/cards", body).then((res) => res.data);
 };
 
 export const getCarts = () => {
-  return api.get<ICardResponse[]>("/cards").then((res) => {
-    console.log({ res });
-    return res.data;
-  });
+  return api.get<ICardResponse[]>("/cards").then((res) => res.data);
 };
